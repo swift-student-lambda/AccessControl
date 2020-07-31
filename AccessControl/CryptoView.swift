@@ -12,6 +12,7 @@ class CryptoView: UIView {
     
     private let cryptographer = Cryptographer()
     
+    // TODO: Setup subviews
     private lazy var inputTextField: UITextField = {
         let inputTextField = UITextField()
         inputTextField.placeholder = "Input some text"
@@ -36,8 +37,8 @@ class CryptoView: UIView {
     
     private let keyStepper: UIStepper = {
         let keyStepper = UIStepper()
-        keyStepper.minimumValue = -20
-        keyStepper.maximumValue = 20
+        keyStepper.minimumValue = -26
+        keyStepper.maximumValue = 26
         keyStepper.value = 3
         keyStepper.addTarget(self, action: #selector(keyChanged(_:)), for: .valueChanged)
         return keyStepper
@@ -58,15 +59,17 @@ class CryptoView: UIView {
     // MARK: - Private Functions
     
     private func configureViews() {
+        // TODO: Add views and configure constraints
+        // Horizontal stack view for key stepper and label
         let keyStack = UIStackView(arrangedSubviews: [keyLabel, keyStepper])
-        keyStack.axis = .horizontal
         keyStack.alignment = .center
         keyStack.spacing = 20
         
+        // Main stack view to put inputTextField, key stack, and outputTextField
         let mainStack = UIStackView(arrangedSubviews: [
             inputTextField,
             keyStack,
-            outputTextField
+            outputTextField,
         ])
         
         mainStack.axis = .vertical
@@ -74,7 +77,9 @@ class CryptoView: UIView {
         mainStack.distribution = .fillEqually
         
         mainStack.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(mainStack)
+        
+        // Add main stack view to this view, and add constraints
+        addSubview(mainStack)
         
         NSLayoutConstraint.activate([
             inputTextField.trailingAnchor.constraint(equalTo: mainStack.trailingAnchor),
@@ -93,14 +98,17 @@ class CryptoView: UIView {
         updateOutput()
     }
     
-    private func updateOutput() {
-        guard let inputText = inputTextField.text else { return }
-        outputTextField.text = cryptographer.encode(string: inputText)
-    }
+    
+    // TODO: Add functions for updating views
     
     private func updateInput() {
         guard let outputText = outputTextField.text else { return }
         inputTextField.text = cryptographer.decode(string: outputText)
+    }
+    
+    private func updateOutput() {
+        guard let inputText = inputTextField.text else { return }
+        outputTextField.text = cryptographer.encode(string: inputText)
     }
 }
 
